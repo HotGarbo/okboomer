@@ -87,7 +87,7 @@
                 <dfn title="Those with an English Wikipedia page. Sorry Dennis Austin.">notable</dfn><xsl:text> </xsl:text>
                 <dfn title="Born between 1946 and 1965">Baby Boomers</dfn><xsl:text> </xsl:text>
                 <xsl:text> have died since </xsl:text>
-                <xsl:value-of select="substring-before((//sparql:binding[@name='dod'])[last()], 'T')"/>
+                <xsl:value-of select="translate(substring-before((//sparql:binding[@name='dod'])[last()], 'T'), '-', '&#8209;')"/>
             </p>
         </xsl:if>
         <table>
