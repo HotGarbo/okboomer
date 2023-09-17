@@ -7,12 +7,17 @@
   body {
     color: #ff0000;
     background-color: black;
+    font-family: monospace;
+  }
+  footer {
+    position: fixed;
+    bottom: 0; left: 0; right:0;
     background-image: url('fire.gif');
     background-position: bottom;
     background-repeat: repeat-x;
-    background-attachment: fixed;
-    text-shadow: black 1px 1px 10px, black -1px -1px 10px;
-    font-family: monospace;
+    background-attachment: scroll;
+    text-align: right;
+    padding: 1em;
   }
 
   a {
@@ -64,8 +69,8 @@
 </div>
 -->
 <footer>
-  <p style="text-align: center"><a href="https://wikidata.org" target="_blank"><img src="wikidata.png" width="88"
-        height="31" /></a></p>
+  <a href="https://wikidata.org" target="_blank"><img src="wikidata.png" width="88"
+        height="31" /></a>
 </footer>
 
 <script id="xsl" type="application/xml"><?xml version='1.0' encoding='UTF-8'?>
