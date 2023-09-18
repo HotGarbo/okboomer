@@ -77,51 +77,52 @@
 </footer>
 
 <script id="xsl" type="application/xml"><?xml version='1.0' encoding='UTF-8'?>
-<xsl:stylesheet version="1.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:sparql='http://www.w3.org/2005/sparql-results#'
-                xmlns:math='http://exslt.org/math'
-    >
-    <xsl:output method="html" doctype-system="about:legacy-compat"/> 
-    <xsl:template match="/sparql:sparql">
-        <xsl:if test="//sparql:binding[@name='dod']">
-            <p style="text-align: center">
-                <xsl:value-of select="count(sparql:results/sparql:result)"/><xsl:text> </xsl:text>
-                <dfn title="Those with an English Wikipedia page. Sorry Dennis Austin.">notable</dfn><xsl:text> </xsl:text>
-                <dfn title="Born between 1946 and 1965">Baby Boomers</dfn><xsl:text> </xsl:text>
-                <xsl:text> have died since </xsl:text>
-                <xsl:value-of select="translate(substring-before((//sparql:binding[@name='dod'])[last()], 'T'), '-', '&#8209;')"/>
-            </p>
-        </xsl:if>
-        <table>
-            <xsl:for-each select="sparql:results/sparql:result">
-                <!--<xsl:sort select="sparql:binding[@name='dod']/sparql:literal" order="ascending" />-->
-                <tr>
-                    <td>
-                        <xsl:variable name="img_src">
-                            <xsl:choose>
-                                <xsl:when test="sparql:binding[@name='pic']">
-                                    <xsl:value-of select="concat(sparql:binding[@name='pic']/sparql:uri, '?width=128')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:variable name="index" select="position() mod 5"/>
-                                    <xsl:value-of select="concat('skull-', $index, '.gif')"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:variable>
-                        <img src="{$img_src}" loading='lazy' width='128' height='128' style='object-fit: cover; object-position: top'/>
-                    </td>
-                    <td>
-                        <a href="{sparql:binding[@name='article']/sparql:uri}" target="_blank"><xsl:value-of select="sparql:binding[@name='item_name']/sparql:literal" /></a><br />
-                        <xsl:if test="sparql:binding[@name='desc']"><xsl:value-of select="sparql:binding[@name='desc']/sparql:literal" /><br /></xsl:if>
-                        <xsl:value-of select="substring-before(sparql:binding[@name='dob']/sparql:literal, 'T')" />
-                        <xsl:if test="sparql:binding[@name='dod']"><br /><xsl:value-of select="substring-before(sparql:binding[@name='dod']/sparql:literal, 'T')" /></xsl:if>
-                    </td>
-                </tr>
-            </xsl:for-each>
-        </table>
-    </xsl:template>
-</xsl:stylesheet>
+  <xsl:stylesheet version="1.0"
+                  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                  xmlns:sparql='http://www.w3.org/2005/sparql-results#'
+                  xmlns:math='http://exslt.org/math'
+      >
+      <xsl:output method="html" doctype-system="about:legacy-compat"/>
+      <xsl:template match="/sparql:sparql">
+          <xsl:if test="//sparql:binding[@name='dod']">
+              <p style="text-align: center">
+                  <xsl:value-of select="count(sparql:results/sparql:result)"/><xsl:text> </xsl:text>
+                  <dfn title="Those with an English Wikipedia page. Sorry Dennis Austin.">notable</dfn><xsl:text> </xsl:text>
+                  <dfn title="Born between 1946 and 1965">Baby Boomers</dfn><xsl:text> </xsl:text>
+                  <xsl:text> have died since </xsl:text>
+                  <xsl:value-of select="translate(substring((//sparql:binding[@name='dod']/sparql:literal)[last()], 1, 10), '-', '&#8209;')"/>
+              </p>
+          </xsl:if>
+          <table>
+              <xsl:for-each select="sparql:results/sparql:result">
+                  <!--<xsl:sort select="sparql:binding[@name='dod']/sparql:literal" order="ascending" />-->
+                  <tr>
+                      <td>
+                          <xsl:variable name="img_src">
+                              <xsl:choose>
+                                  <xsl:when test="sparql:binding[@name='pic']">
+                                      <xsl:value-of select="concat(sparql:binding[@name='pic']/sparql:uri, '?width=128')"/>
+                                  </xsl:when>
+                                  <xsl:otherwise>
+                                      <xsl:variable name="index" select="position() mod 5"/>
+                                      <xsl:value-of select="concat('skull-', $index, '.gif')"/>
+                                  </xsl:otherwise>
+                              </xsl:choose>
+                          </xsl:variable>
+                          <img src="{$img_src}" loading='lazy' width='128' height='128' style='object-fit: cover; object-position: top'/>
+                      </td>
+                      <td>
+                          <a href="{sparql:binding[@name='article']/sparql:uri}" target="_blank"><xsl:value-of select="sparql:binding[@name='item_name']/sparql:literal" /></a><br />
+                          <xsl:if test="sparql:binding[@name='desc']"><xsl:value-of select="sparql:binding[@name='desc']/sparql:literal" /><br /></xsl:if>
+                          <xsl:variable name="date_len" select="(((sparql:binding[@name='precision']/sparql:literal)-9)*3+4)" />
+                          <xsl:value-of select="substring(sparql:binding[@name='dob']/sparql:literal, 1, $date_len)" />
+                          <xsl:if test="sparql:binding[@name='dod']"><br /><xsl:value-of select="substring-before(sparql:binding[@name='dod']/sparql:literal, 'T')" /></xsl:if>
+                      </td>
+                  </tr>
+              </xsl:for-each>
+          </table>
+      </xsl:template>
+  </xsl:stylesheet>
 </script>
 <script type="text/javascript">
   var xsltProcessor = new XSLTProcessor();
@@ -130,13 +131,16 @@
   var lastMonth = new Date();
   lastMonth.setMonth(lastMonth.getMonth() - 1);
   lastMonth = lastMonth.toISOString().split("T")[0];
-  var deadQuery = `SELECT ?item (SAMPLE(?pic) AS ?pic) (SAMPLE(?dob) AS ?dob) (SAMPLE(?dod) AS ?dod) (SAMPLE(?item_name) AS ?item_name) (SAMPLE(?desc) AS ?desc) (SAMPLE(?article) AS ?article) WHERE {
+  var deadQuery = `SELECT (SAMPLE(?pic) AS ?pic) (MAX(?birth) AS ?dob) (MAX(?birth_precision) AS ?precision) (SAMPLE(?dod) AS ?dod) (SAMPLE(?item_name) AS ?item_name) (SAMPLE(?desc) AS ?desc) (SAMPLE(?article) AS ?article) WHERE {
   ?item wdt:P570 ?dod.
   hint:Prior hint:rangeSafe "true"^^xsd:boolean.
   FILTER(?dod >= "${lastMonth}"^^xsd:dateTime)
-  ?item wdt:P569 ?dob.
+  ?item p:P569/psv:P569 [
+    wikibase:timeValue ?birth;
+    wikibase:timePrecision ?birth_precision
+  ].
   hint:Prior hint:rangeSafe "true"^^xsd:boolean.
-  FILTER((?dob > "1946-00-00"^^xsd:dateTime) && (?dob < "1965-00-00"^^xsd:dateTime))
+  FILTER((?birth > "1946-00-00"^^xsd:dateTime) && (?birth < "1965-00-00"^^xsd:dateTime))
   ?item wdt:P31 wd:Q5.
   ?article schema:about ?item;
     schema:isPartOf <https://en.wikipedia.org/>;
