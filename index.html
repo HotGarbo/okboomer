@@ -182,11 +182,13 @@ LIMIT 100`;
   xhrDying.open("GET", "dying.xml"); //`https://query.wikidata.org/sparql?query=${encodeURIComponent(dyingQuery)}`);
   xhrDead.onload = function (evt) {
     var frag = xsltProcessor.transformToFragment(xhrDead.responseXML, document);
-    document.getElementById("dead").replaceChildren(frag);
+    var dead = document.getElementById("dead");
+    dead.replaceChild(frag, dead.firstChild);
   };
   xhrDying.onload = function (evt) {
     var frag = xsltProcessor.transformToFragment(xhrDying.responseXML, document);
-    document.getElementById("dying").replaceChildren(frag);
+    var dying = document.getElementById("dying");
+    dying.replaceChild(frag, dying.firstChild);
   };
   xsltProcessor.importStylesheet(new DOMParser().parseFromString(document.getElementById("xsl").innerText, 'application/xml'));
   xhrDead.send();
