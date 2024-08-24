@@ -1,8 +1,22 @@
 <!DOCTYPE html>
 <title>Boomer Death Watch</title>
-<meta name="description" content="OK Boomer" />
+<meta name="description" content="Recent notable Boomer deaths" />
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/favicon.gif" type="image/gif" />
+<meta property="og:url" content="https://boomerdeathwatch.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Boomer Death Watch">
+<meta property="og:description" content="Recent notable Boomer deaths">
+<meta property="og:image" content="https://boomerdeathwatch.com/favicon.gif">
+<meta property="og:image:width" content="22">
+<meta property="og:image:height" content="22">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="boomerdeathwatch.com">
+<meta property="twitter:url" content="https://boomerdeathwatch.com">
+<meta name="twitter:title" content="Boomer Death Watch">
+<meta name="twitter:description" content="Recent notable Boomer deaths">
+<meta name="twitter:image" content="https://boomerdeathwatch.com/favicon.gif">
 <style>
   body {
     color: #ff0000;
@@ -95,7 +109,7 @@
           <xsl:if test="//sparql:binding[@name='dod']">
               <p style="text-align: center">
                   <xsl:value-of select="count(sparql:results/sparql:result)"/><xsl:text> </xsl:text>
-                  <dfn title="Those with an English Wikipedia page. Sorry Dennis Austin.">notable</dfn><xsl:text> </xsl:text>
+                  <dfn title="Those with an English Wikipedia page">notable</dfn><xsl:text> </xsl:text>
                   <dfn title="Born between 1946 and 1965">Baby Boomers</dfn><xsl:text> </xsl:text>
                   <xsl:text> have died since </xsl:text>
                   <xsl:value-of select="translate(substring((//sparql:binding[@name='dod']/sparql:literal)[last()], 1, 10), '-', '&#8209;')"/>
