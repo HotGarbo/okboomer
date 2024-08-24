@@ -65,6 +65,10 @@
   td {
     vertical-align: top;
   }
+
+  img {
+    image-rendering: pixelated;
+  }
 </style>
 <h1>Boomer Death Watch</h1>
 <div id="dead">Loading...</div>
@@ -102,18 +106,17 @@
                   <!--<xsl:sort select="sparql:binding[@name='dod']/sparql:literal" order="ascending" />-->
                   <tr>
                       <td>
-                          <xsl:variable name="img_src">
-                              <xsl:choose>
-                                  <xsl:when test="sparql:binding[@name='pic']">
-                                      <xsl:value-of select="concat(sparql:binding[@name='pic']/sparql:uri, '?width=128')"/>
-                                  </xsl:when>
-                                  <xsl:otherwise>
-                                      <xsl:variable name="index" select="position() mod 5"/>
-                                      <xsl:value-of select="concat('skull-', $index, '.gif')"/>
-                                  </xsl:otherwise>
-                              </xsl:choose>
-                          </xsl:variable>
-                          <img src="{$img_src}" loading='lazy' width='128' height='128' style='object-fit: cover; object-position: top'/>
+                          <xsl:choose>
+                              <xsl:when test="sparql:binding[@name='pic']">
+                                  <xsl:variable name="img_src" select="concat(sparql:binding[@name='pic']/sparql:uri, '?width=128')"/>
+                                  <img src="{$img_src}" loading='lazy' width='128' height='128' style='object-fit: cover; object-position: top'/>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                  <xsl:variable name="index" select="position() mod 7"/>
+                                  <xsl:variable name="img_src" select="concat('skull-', $index, '.gif')"/>
+                                  <img src="{$img_src}" loading='lazy' width='128' height='128' style='object-fit: contain; object-position: center'/>
+                              </xsl:otherwise>
+                          </xsl:choose>
                       </td>
                       <td>
                           <a href="{sparql:binding[@name='article']/sparql:uri}" target="_blank"><xsl:value-of select="sparql:binding[@name='item_name']/sparql:literal" /></a><br />
