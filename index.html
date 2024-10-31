@@ -156,7 +156,10 @@
   ?item wdt:P570 ?dod.
   hint:Prior hint:rangeSafe "true"^^xsd:boolean.
   FILTER(?dod >= "${lastMonth}"^^xsd:dateTime)
-  ?item p:P569/psv:P569 [
+  ?item p:P569 ?st.
+  ?st ps:P569 ?val.
+  ?st rdf:type wikibase:BestRank.
+  ?st psv:P569 [
     wikibase:timeValue ?birth;
     wikibase:timePrecision ?birth_precision
   ].
